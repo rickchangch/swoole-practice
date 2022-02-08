@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package grpc;
+
+message Client {
+    int32 id = 1;
+    string name = 2;
+    string description = 3;
+}
+
+message ClientViewRequest {
+    int32 id = 1;
+}
+
+message ClientViewResponse {
+    Client client =1;
+}
+
+message ClientIndexRequest {
+}
+
+message ClientIndexResponse {
+    repeated Client clients =1;
+}

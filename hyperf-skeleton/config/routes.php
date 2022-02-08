@@ -12,7 +12,16 @@ declare(strict_types=1);
 use Hyperf\HttpServer\Router\Router;
 
 Router::addRoute(['GET', 'POST', 'HEAD'], '/', 'App\Controller\IndexController@index');
+Router::addRoute(['GET', 'HEAD'], '/grpc/index', 'App\Controller\GrpcController@index');
+Router::addRoute(['GET', 'HEAD'], '/grpc/view', 'App\Controller\GrpcController@view');
 
 Router::get('/favicon.ico', function () {
     return '';
+});
+
+Router::addServer('grpc', function () {
+    Router::addGroup('/grpc.elixir', function () {
+        Router::post('/indexClient', 'App\Controller\ElixirController@indexClient');
+        Router::post('/viewClient', 'App\Controller\ElixirController@viewClient');
+    });
 });
