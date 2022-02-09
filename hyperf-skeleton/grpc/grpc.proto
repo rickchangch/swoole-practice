@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package grpc;
+
+import "schema.proto";
+
+service elixir {
+    rpc viewClient (ClientViewRequest) returns (ClientViewResponse) {}
+    rpc indexClient (ClientIndexRequest) returns (ClientIndexResponse) {}
+}
