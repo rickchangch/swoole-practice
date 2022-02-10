@@ -1,0 +1,4 @@
+logs/*
+scripts/*
+src/vendor/*
+src/runtime/*
