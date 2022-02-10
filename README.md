@@ -2,16 +2,28 @@
 
 This project is used for practicing the gRPC and coruntine with PHP coruninte framework `hyperf` which based on the `swoole` and `swow`.
 
+## Start-up
+
+- deply project at the local environment
+    ```
+    bash scripts/commands.sh -t deploy-local -a DEPLOY_ENV=stage
+
+    # kill it
+    bash scripts/commands.sh -t kill-local
+    ```
+
+## Dev steps
+
 - install hyperf
     ```
-    composer create-project hyperf/hyperf-skeleton
+    composer create-project hyperf/hyperf-skeleton src
     ```
 
 - develop in Docker
     - image from hyperf registry
         ```shell
         docker run --name hyperf \
-        -v /Users/rick/projects/code/swoole-practice/hyperf-skeleton:/data/project \
+        -v /Users/rick/projects/code/swoole-practice/src:/data/project \
         -p 9501:9501 -it \
         --privileged -u root \
         --entrypoint /bin/sh \
@@ -23,7 +35,7 @@ This project is used for practicing the gRPC and coruntine with PHP coruninte fr
         docker build hyperf:dev ./hyper-skeleton
 
         docker run --name hyperf \
-        -v /Users/rick/projects/code/swoole-practice/hyperf-skeleton:/data/project \
+        -v /Users/rick/projects/code/swoole-practice/src:/data/project \
         -p 9501:9501 -it \
         --privileged -u root \
         --entrypoint /bin/sh \
@@ -62,7 +74,7 @@ This project is used for practicing the gRPC and coruntine with PHP coruninte fr
         },
         ```
         execute `composer dump-autoload` to activate autoload
-    - install gRPC dependencies
+    - (x)install gRPC dependencies
         ```
         composer require hyperf/grpc-server
         composer require hyperf/grpc-client
