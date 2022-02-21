@@ -4,18 +4,19 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Model\Clients;
+use App\Resource\ClientResource;
+use App\Resource\ClientViewResponseResource;
 use Grpc\Client;
 use Grpc\ClientIndexRequest;
 use Grpc\ClientIndexResponse;
 use Grpc\ClientViewRequest;
 use Grpc\ClientViewResponse;
-use Grpc\HiReply;
-use Grpc\HiUser;
 
 /**
  * gRPC Server
  */
-class ElixirController extends AbstractController
+class ElixirController
 {
     public function viewClient(ClientViewRequest $req)
     {
@@ -27,6 +28,8 @@ class ElixirController extends AbstractController
         $resp = new ClientViewResponse();
         $resp->setClient($client);
         return $resp;
+
+        // return (new ClientViewResponseResource($resp))->toResponse();
     }
 
     public function indexClient(ClientIndexRequest $req)

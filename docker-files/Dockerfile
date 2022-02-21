@@ -23,4 +23,4 @@ COPY ./docker-files/entrypoint/init.sh /usr/local/bin/init.sh
 RUN chmod +x /usr/local/bin/init.sh
 ENTRYPOINT ["/usr/local/bin/init.sh"]
 
-EXPOSE 9501 9502
+EXPOSE 9501 9503
