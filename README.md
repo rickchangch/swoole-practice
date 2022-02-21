@@ -159,3 +159,14 @@ This project is used for practicing the gRPC and coruntine with PHP coruninte fr
         # use it through the protoc command
         protoc --php_out=./ --grpc_out=./ --plugin=protoc-gen-grpc=/var/www/grpc/bins/opt/grpc_php_plugin *.proto
         ```
+- use seeder for creating db default data
+    ```bash
+    # gen code
+    php bin/hyperf.php gen:seeder CreateClientsTableSeeder
+
+    # run seed
+    php bin/hyperf.php db:seed
+
+    # run specified seed
+    php bin/hyperf.php db:seed --path=seeders/<FILE_NAME>.php
+    ```
