@@ -82,9 +82,15 @@ This project is used for practicing the gRPC and coruntine with PHP coruninte fr
     - compile .proto
         ```
         cd grpc && protoc --php_out=. *.proto
-        # OR
+        # specify the relative path
         protoc -I=grpc/ --php_out=grpc/ grpc/*.proto
-    ```
+        # using grpc plugin
+        protoc -I=grpc/ --php_out=plugins=grpc:grpc/ grpc/*.proto
+        # same as above line
+        protoc -I=grpc/ --php_out=grpc/ --grpc_out=grpc/ grpc/*.proto
+        # using `grpc_php_plugin`, but you should compile grpc/grpc source before executing this command.
+        protoc --php_out=./ --grpc_out=./ --plugin=protoc-gen-grpc=/var/www/grpc/bins/opt/grpc_php_plugin *.proto
+        ```
     - autoload
         ```
         "autoload": {
@@ -107,3 +113,49 @@ This project is used for practicing the gRPC and coruntine with PHP coruninte fr
     ```
     composer require "doctrine/dbal:^3.0"
     ```
+- gen resource
+    ```
+    # generate single resource
+    php bin/hyperf.php gen:resource {RESOURCE_NAME}
+    # generate resource collection
+    php bin/hyperf.php gen:resource {RESOURCE_NAME} --collenction
+    php bin/hyperf.php gen:resource {RESOURCE_NAME}Collenction
+    # generate grpc resource
+    php bin/htperf.php gen:resource {RESOURCE_NAME} --grpc
+    ```
+- install protoc plugin and origin php grpc lib
+    - from source
+        ```bash
+        # compile from source with c-implementation
+        git clone -b v1.34.1 --depth 1 https://github.com/grpc/grpc && \
+        cd grpc && \
+        git submodule update --init && \
+        make grpc_php_plugin
+
+        # if alert some header files missed
+        apk add linux-headers
+
+        # or just install it with php-implementation but get lower performance
+        composer require grpc/grpc:~1.44.0
+        ```
+    - from pecl
+        ```bash
+        # another resolution is that install it through the pecl,
+        # but the alpine do not prepare pear as default,
+        # you should install it in the begin.
+        curl -o go-pear.php https://pear.php.net/go-pear.phar
+        php go-pear.php
+        pecl install grpc
+
+        # and then install grpc-php-plugin via pecl
+        git clone -b v1.34.1 --depth 1 https://github.com/grpc/grpc && \
+        cd grpc && \
+        git submodule update --init && \
+        make grpc_php_plugin
+
+        # and you will get file path of the `grpc_php_plugin`
+        /var/www/grpc/bins/opt/grpc_php_plugin
+
+        # use it through the protoc command
+        protoc --php_out=./ --grpc_out=./ --plugin=protoc-gen-grpc=/var/www/grpc/bins/opt/grpc_php_plugin *.proto
+        ```

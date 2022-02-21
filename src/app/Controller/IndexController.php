@@ -12,8 +12,8 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Model\Clients;
+use App\Resource\JsonClientsResource as ClientsResources;
 use Hyperf\DbConnection\Db;
-use Hyperf\Utils\Arr;
 
 class IndexController extends AbstractController
 {
@@ -22,7 +22,8 @@ class IndexController extends AbstractController
         $user = $this->request->input('user', 'Hyperf');
         $method = $this->request->getMethod();
 
-        return Clients::first();
+        // return ClientResource::collection(Clients::all())->toResponse();
+        return (new ClientsResources(Clients::paginate()))->toResponse();
 
         // // array -> stdClass obj
         // $clients = Db::select('SELECT * FROM `clients` WHERE name != ?', ['A']);
